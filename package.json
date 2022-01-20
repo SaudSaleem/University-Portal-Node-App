@@ -1,0 +1,36 @@
+{
+  "name": "university_portal_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaudSaleem/university_portal_backend.git"
+  },
+  "author": "saud saleem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaudSaleem/university_portal_backend/issues"
+  },
+  "homepage": "https://github.com/SaudSaleem/university_portal_backend#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "joi": "^13.1.0",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.7.2",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.12.5",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1"
+  }
+}

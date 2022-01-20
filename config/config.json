@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "saudsaleem",
+    "password": 12345678,
+    "database": "university_portal_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "saudsaleem",
+    "password": 12345678,
+    "database": "university_portal_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "saudsaleem",
+    "password": 12345678,
+    "database": "university_portal_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
