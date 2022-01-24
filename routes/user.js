@@ -1,9 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var middleware = require("../middlewares/test");
-const userController = require("../controllers/userController");
-const userJobs = require("../jobs/emailJob");
-
+const express = require("express");
+const router = express.Router();
+const userMiddleware = require("../middlewares/user");
+const userController = require("../controllers/user");
+const verifyTokenController = require("../middlewares/token")
 /**
  * @swagger
  * components:
@@ -11,31 +10,46 @@ const userJobs = require("../jobs/emailJob");
  *     User:
  *       type: object
  *       required:
- *         - firstName
- *         - lastName
- *         - email
- *         - password
+ *         - user_first_name
+ *         - user_last_name
+ *         - user_email
+ *         - user_password
+ *         - user_role
+ *         - user_address
+ *         - user_phone_no
  *       properties:
- *         id:
+ *          id:
  *           type: string
  *           description: The auto-generated id of the user
- *         firstName:
+ *          user_first_name:
  *           type: string
  *           description: User first name
- *         lastName:
+ *          user_last_name:
  *           type: string
  *           description: User last name
- *         email:
+ *          user_email:
  *           type: string
  *           description: User email
- *         password:
+ *          user_password:
  *           type: string
  *           description: User password
+ *          user_role:
+ *           type: string
+ *           description: User role name
+ *          user_address:
+ *           type: string
+ *           description: User address
+ *          user_phone_no:
+ *           type: string
+ *           description: User phone number
  *       example:
- *         firstName: Saud
- *         lastName:  Saleem
- *         email: Saud.Saleem@gmail.com
- *         password: 1234567ABC!
+ *         user_first_name: Rickey
+ *         user_last_name:  PONTING
+ *         user_email: ponting@gmail.com
+ *         user_password: 1234567ABC!
+ *         user_role: Student
+ *         user_address: ST 8, Wall Street NYC
+ *         user_phone_no: +108 763567532
  */
 
 /**
@@ -63,13 +77,13 @@ const userJobs = require("../jobs/emailJob");
  *                 $ref: '#/components/schemas/User'
  */
 
-router.get("/", middleware.timeLog, userController.getAllUsers);
+router.get("/",verifyTokenController.verifyToken, userController.getAllUsers);
 
 /**
  * @swagger
  * /api/user/{id}:
  *   get:
- *     summary: Get the user by id
+ *     summary: Get user by id
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -88,19 +102,7 @@ router.get("/", middleware.timeLog, userController.getAllUsers);
  *       404:
  *         description: The user was not found
  */
-router.get("/:id", middleware.timeLog, userController.getUserById);
-//get users with bank information using join (one -> one)
-router.get(
-  "/getUsersWithBankInfo",
-  middleware.timeLog,
-  userController.getUsersBankInformation
-);
-//get users with contact information using join (one -> many)
-router.get(
-  "/getUsersContactInformation",
-  middleware.timeLog,
-  userController.getUsersContactInformation
-);
+router.get("/:id", userController.getUserById);
 
 /**
  * @swagger
@@ -124,12 +126,12 @@ router.get(
  *       500:
  *         description: Some server error
  */
+router.post("/", userMiddleware.validateUser, userController.addUser);
 
-router.post("/", middleware.timeLog, userController.addUser);
 /**
  * @swagger
  * /api/user/{id}:
- *  put:
+ *  patch:
  *    summary: Update the user by the id
  *    tags: [Users]
  *    parameters:
@@ -157,7 +159,7 @@ router.post("/", middleware.timeLog, userController.addUser);
  *      500:
  *        description: Some error happened
  */
-router.put("/:id", middleware.timeLog, userController.updateUser);
+router.patch("/:id", userMiddleware.validateUserUpdation, userController.updateUser);
 /**
  * @swagger
  * /api/user/{id}:
@@ -178,8 +180,58 @@ router.put("/:id", middleware.timeLog, userController.updateUser);
  *       404:
  *         description: The user was not found
  */
-router.delete("/:id", middleware.timeLog, userController.deleteUser);
-//send email after specfic time (CRON JOBS)
-router.post("/sendEmail", userJobs.sendEmailToUser);
+router.delete("/:id", userController.deleteUser);
 
+/**
+ * @swagger
+ * /api/user/assignCourse/:
+ *   post:
+ *     summary: Assign a course to user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The course was assigned successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+*       400:
+ *         description: The user or course was not found
+ *       500:
+ *         description: Some server error
+ */
+ router.post("/assignCourse/", userController.assignCourse);
+
+ /**
+ * @swagger
+ * /api/user/getUserCourses/{id}:
+ *   get:
+ *     summary: Get specific user courses
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: The user courses in which he/she enrolled
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: The user was not found
+ *       500:
+ *         description: Server error
+ */
+router.get("/getUserCourses/:id", userController.getUserCourses);
 module.exports = router;

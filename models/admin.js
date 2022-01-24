@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**
@@ -13,16 +12,35 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Admin.init({
-    admin_first_name: DataTypes.STRING,
-    admin_last_name: DataTypes.STRING,
-    admin_email: DataTypes.STRING,
-    admin_password: DataTypes.STRING,
-    admin_address: DataTypes.STRING,
-    admin_phone_no: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Admin',
-  });
+  Admin.init(
+    {
+      admin_first_name: {
+        type: DataTypes.STRING,
+        set(value) {
+          this.setDataValue("admin_first_name", value.toLowerCase());
+        },
+      },
+      admin_last_name: {
+        type: DataTypes.STRING,
+        set(value) {
+          this.setDataValue("admin_last_name", value.toLowerCase());
+        },
+      },
+      admin_email: DataTypes.STRING,
+      admin_password: {
+        type: DataTypes.STRING,
+        set(value) {
+          const hash = bcrypt.hashSync(value, 10);
+          this.setDataValue("admin_password", hash);
+        },
+      },
+      admin_address: DataTypes.STRING,
+      admin_phone_no: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "Admin",
+    }
+  );
   return Admin;
 };
