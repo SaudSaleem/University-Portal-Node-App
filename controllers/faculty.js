@@ -1,6 +1,6 @@
 const facultyModel = require("../models").Faculty;
 const userModel = require("../models").User;
-const courseModel = require("../models").Course
+const courseModel = require("../models").Course;
 // add new faculty
 const addFaculty = async (req, res) => {
   try {
@@ -58,9 +58,11 @@ const updateFaculty = async (req, res) => {
       res.status(404).send("Faculty with given id is not found!");
       return;
     }
-  } catch (e) {res.status(500).json({ error: e.message });}
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
   try {
-       await facultyModel.update(
+    await facultyModel.update(
       {
         faculty_name: req.body.faculty_name,
         faculty_description: req.body.faculty_description,
@@ -95,7 +97,7 @@ const deleteFaculty = async (req, res) => {
     res.status(404).send("Faculty with given id is not found!");
     return;
   }
-   await facultyModel.destroy({
+  await facultyModel.destroy({
     where: {
       id: req.params.id,
     },
@@ -108,10 +110,14 @@ const getFacultyUsers = async (req, res) => {
   try {
     let faculty = await facultyModel.findByPk(req.params.id);
     if (faculty) {
-     // let users = await faculty.getUsers();
-    let users = await facultyModel.findAll({ include: userModel,where:{id:req.params.id} });
+      // let users = await faculty.getUsers();
+      let users = await facultyModel.findAll({
+        include: userModel,
+        where: { id: req.params.id },
+      });
       res.status(200).send(users);
-    } else res.status(404).json({ error: "faculty with given id is not found" });
+    } else
+      res.status(404).json({ error: "faculty with given id is not found" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -122,10 +128,14 @@ const getFacultyCourses = async (req, res) => {
   try {
     let faculty = await facultyModel.findByPk(req.params.id);
     if (faculty) {
-     // let courses = await faculty.getCourses();
-    let courses = await facultyModel.findAll({ include: courseModel,where:{id:req.params.id} });
+      // let courses = await faculty.getCourses();
+      let courses = await facultyModel.findAll({
+        include: courseModel,
+        where: { id: req.params.id },
+      });
       res.status(200).send(courses);
-    } else res.status(404).json({ error: "faculty with given id is not found" });
+    } else
+      res.status(404).json({ error: "faculty with given id is not found" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -138,5 +148,5 @@ module.exports = {
   updateFaculty,
   deleteFaculty,
   getFacultyUsers,
-  getFacultyCourses
+  getFacultyCourses,
 };

@@ -11,10 +11,7 @@ async function validateAssignStudent(req, res, next) {
     //check if user exist
     let user = await userModel.findOne({
       where: {
-        [Op.and]: [
-          { id: req.body.user_id },
-          { user_role: "teacher" },
-        ],
+        [Op.and]: [{ id: req.body.user_id }, { user_role: "teacher" }],
       },
     });
     if (!user) {

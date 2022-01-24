@@ -9,7 +9,7 @@ const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 const studentTeacherRoutes = require("./routes/studentTeacher");
 const facultyRoutes = require("./routes/faculty");
-const facultyMetaRoutes = require("./routes/facultyMeta");
+//const facultyMetaRoutes = require("./routes/facultyMeta");
 const courseRoutes = require("./routes/course");
 // const courseMetaRoutes = require("./routes/courseMeta");
 const autoController = require("./controllers/auth");
@@ -47,10 +47,9 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/studentTeacher", studentTeacherRoutes);
 app.use("/api/faculty", facultyRoutes);
-app.use("/api/facultyMeta", facultyMetaRoutes);
+//app.use("/api/facultyMeta", facultyMetaRoutes);
 app.use("/api/course", courseRoutes);
 // app.use("/api/courseMeta", courseMetaRoutes);
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);

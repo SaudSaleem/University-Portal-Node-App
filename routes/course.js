@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const courseMiddlewares = require('../middlewares/course')
+const courseMiddlewares = require("../middlewares/course");
 const courseController = require("../controllers/course");
-
+const verifyTokenController = require("../middlewares/token");
 /**
  * @swagger
  * components:
@@ -62,7 +62,11 @@ const courseController = require("../controllers/course");
  *                 $ref: '#/components/schemas/Course'
  */
 
-router.get("/", courseController.getAllCourses);
+router.get(
+  "/",
+  verifyTokenController.verifyToken,
+  courseController.getAllCourses
+);
 
 /**
  * @swagger
@@ -86,8 +90,14 @@ router.get("/", courseController.getAllCourses);
  *               $ref: '#/components/schemas/Course'
  *       404:
  *         description: The course was not found
+ *       500:
+ *         description: Some server error
  */
-router.get("/:id", courseController.getCourseById);
+router.get(
+  "/:id",
+  verifyTokenController.verifyToken,
+  courseController.getCourseById
+);
 
 /**
  * @swagger
@@ -103,7 +113,7 @@ router.get("/:id", courseController.getCourseById);
  *             $ref: '#/components/schemas/Course'
  *     responses:
  *       200:
- *         description: The faculty was successfully created
+ *         description: The course was successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -111,7 +121,12 @@ router.get("/:id", courseController.getCourseById);
  *       500:
  *         description: Some server error
  */
-router.post("/",courseMiddlewares.validateCourse, courseController.addCourse);
+router.post(
+  "/",
+  verifyTokenController.verifyToken,
+  courseMiddlewares.validateCourse,
+  courseController.addCourse
+);
 
 /**
  * @swagger
@@ -144,7 +159,12 @@ router.post("/",courseMiddlewares.validateCourse, courseController.addCourse);
  *      500:
  *        description: Some error happened
  */
-router.patch("/:id",courseMiddlewares.validateCourseUpdation, courseController.updateCourse);
+router.patch(
+  "/:id",
+  verifyTokenController.verifyToken,
+  courseMiddlewares.validateCourseUpdation,
+  courseController.updateCourse
+);
 /**
  * @swagger
  * /api/course/{id}:
@@ -165,6 +185,10 @@ router.patch("/:id",courseMiddlewares.validateCourseUpdation, courseController.u
  *       404:
  *         description: The course was not found
  */
-router.delete("/:id", courseController.deleteCourse);
+router.delete(
+  "/:id",
+  verifyTokenController.verifyToken,
+  courseController.deleteCourse
+);
 
 module.exports = router;

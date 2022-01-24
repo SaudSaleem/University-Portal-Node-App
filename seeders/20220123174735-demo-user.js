@@ -6,11 +6,9 @@ const bcrypt = require("bcrypt");
 let dataArray = [];
 module.exports = {
   async up(queryInterface, Sequelize) {
-
     var data = fs.readFileSync(path.resolve(__dirname, "./users.csv"), "utf8");
-    
- 
-    data = data.split("\n"); 
+
+    data = data.split("\n");
     for (let i in data) {
       // SPLIT COLUMNS
       data[i] = data[i].split(",");
@@ -20,11 +18,11 @@ module.exports = {
         user_email: data[i][2],
         user_password: bcrypt.hashSync(data[i][3], 10),
         user_address: data[i][4],
-        user_phone_no : data[i][5],
+        user_phone_no: data[i][5],
         user_role: data[i][6],
         faculty_id: data[i][7],
-        createdAt : new Date(),
-        updatedAt : new Date()
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
     }
 
@@ -35,7 +33,7 @@ module.exports = {
     /**
      * Add commands to revert seed here.
      */
-     let addedEmails = dataArray.map(user => user.user_email);
+    let addedEmails = dataArray.map((user) => user.user_email);
     await queryInterface.bulkDelete("Users", null, {
       where: {
         user_email: [...addedEmails],

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userMiddleware = require("../middlewares/user");
 const userController = require("../controllers/user");
-const verifyTokenController = require("../middlewares/token")
+const verifyTokenController = require("../middlewares/token");
 /**
  * @swagger
  * components:
@@ -77,7 +77,7 @@ const verifyTokenController = require("../middlewares/token")
  *                 $ref: '#/components/schemas/User'
  */
 
-router.get("/",verifyTokenController.verifyToken, userController.getAllUsers);
+router.get("/", verifyTokenController.verifyToken, userController.getAllUsers);
 
 /**
  * @swagger
@@ -102,7 +102,11 @@ router.get("/",verifyTokenController.verifyToken, userController.getAllUsers);
  *       404:
  *         description: The user was not found
  */
-router.get("/:id", userController.getUserById);
+router.get(
+  "/:id",
+  verifyTokenController.verifyToken,
+  userController.getUserById
+);
 
 /**
  * @swagger
@@ -126,7 +130,12 @@ router.get("/:id", userController.getUserById);
  *       500:
  *         description: Some server error
  */
-router.post("/", userMiddleware.validateUser, userController.addUser);
+router.post(
+  "/",
+  verifyTokenController.verifyToken,
+  userMiddleware.validateUser,
+  userController.addUser
+);
 
 /**
  * @swagger
@@ -159,7 +168,12 @@ router.post("/", userMiddleware.validateUser, userController.addUser);
  *      500:
  *        description: Some error happened
  */
-router.patch("/:id", userMiddleware.validateUserUpdation, userController.updateUser);
+router.patch(
+  "/:id",
+  verifyTokenController.verifyToken,
+  userMiddleware.validateUserUpdation,
+  userController.updateUser
+);
 /**
  * @swagger
  * /api/user/{id}:
@@ -180,7 +194,11 @@ router.patch("/:id", userMiddleware.validateUserUpdation, userController.updateU
  *       404:
  *         description: The user was not found
  */
-router.delete("/:id", userController.deleteUser);
+router.delete(
+  "/:id",
+  verifyTokenController.verifyToken,
+  userController.deleteUser
+);
 
 /**
  * @swagger
@@ -201,14 +219,18 @@ router.delete("/:id", userController.deleteUser);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
-*       400:
+ *       400:
  *         description: The user or course was not found
  *       500:
  *         description: Some server error
  */
- router.post("/assignCourse/", userController.assignCourse);
+router.post(
+  "/assignCourse/",
+  verifyTokenController.verifyToken,
+  userController.assignCourse
+);
 
- /**
+/**
  * @swagger
  * /api/user/getUserCourses/{id}:
  *   get:
@@ -223,7 +245,7 @@ router.delete("/:id", userController.deleteUser);
  *         description: The user id
  *     responses:
  *       200:
- *         description: The user courses in which he/she enrolled
+ *         description: The user courses in which he/she enrolled or teaching
  *         contens:
  *           application/json:
  *             schema:
@@ -233,5 +255,9 @@ router.delete("/:id", userController.deleteUser);
  *       500:
  *         description: Server error
  */
-router.get("/getUserCourses/:id", userController.getUserCourses);
+router.get(
+  "/getUserCourses/:id",
+  verifyTokenController.verifyToken,
+  userController.getUserCourses
+);
 module.exports = router;

@@ -3,7 +3,11 @@ const Joi = require("joi");
 function validateFaculty(req, res, next) {
   try {
     const schema = Joi.object().keys({
-      faculty_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).required(),
+      faculty_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .required(),
       faculty_description: Joi.string().min(3).max(60),
     });
     const result = schema.validate(req.body);
@@ -12,7 +16,7 @@ function validateFaculty(req, res, next) {
       {
         return res.status(400).json({
           success: false,
-          msg: result.error.details.map(i => i.message).join(',')
+          msg: result.error.details.map((i) => i.message).join(","),
         });
       }
     } else next();
@@ -24,7 +28,11 @@ function validateFaculty(req, res, next) {
 function validateFacultyUpdation(req, res, next) {
   try {
     const schema = Joi.object().keys({
-      faculty_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).optional(),
+      faculty_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .optional(),
       faculty_description: Joi.string().min(3).max(60),
     });
     const result = schema.validate(req.body);
@@ -32,7 +40,7 @@ function validateFacultyUpdation(req, res, next) {
       {
         return res.status(400).json({
           success: false,
-          msg: result.error.details.map(i => i.message).join(',')
+          msg: result.error.details.map((i) => i.message).join(","),
         });
       }
     } else next();
@@ -42,5 +50,5 @@ function validateFacultyUpdation(req, res, next) {
 }
 module.exports = {
   validateFaculty,
-  validateFacultyUpdation
+  validateFacultyUpdation,
 };

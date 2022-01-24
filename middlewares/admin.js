@@ -20,7 +20,11 @@ function validateAdmin(req, res, next) {
         .required(),
       admin_password: Joi.string().min(5).max(30).required(),
       admin_address: Joi.string().optional(),
-      admin_phone_no: Joi.string().regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/).min(5).max(30).optional(),
+      admin_phone_no: Joi.string()
+        .regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)
+        .min(5)
+        .max(30)
+        .optional(),
     });
     const result = schema.validate(req.body);
 
@@ -57,7 +61,7 @@ function validateAdminUpdation(req, res, next) {
         .optional(),
       admin_password: Joi.string().min(5).max(30).optional(),
       admin_address: Joi.string().optional(),
-      admin_phone_no: Joi.string().regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/).min(5).max(30).optional(),
+      admin_phone_no: Joi.string().min(5).max(30).optional(),
     });
     const result = schema.validate(req.body);
 

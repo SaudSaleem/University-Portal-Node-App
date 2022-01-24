@@ -1,7 +1,7 @@
 const userModel = require("../models").User;
 const courseModel = require("../models").Course;
 const UserCourseModel = require("../models").UserCourse;
-const jobs = require("../jobs/emailJob")
+const jobs = require("../jobs/emailJob");
 // const bankInfoModel = require("../models").bankInfo;
 // const contactInfoModel = require("../models").contactInfo;
 
@@ -65,7 +65,7 @@ const addUser = async (req, res) => {
       faculty_id: req.body.faculty_id,
     });
     //send email to user
-    jobs.sendEmail()
+    jobs.sendEmail();
     res.status(201).send(addedUser);
   } catch (error) {
     if (error.errors && error.errors[0].type == "unique violation") {
@@ -158,11 +158,11 @@ const assignCourse = async (req, res) => {
     //   course_id : req.body.course_id,
     //   user_id : req.body.user_id
     // })
-    console.log("USERS",user.id,course.id)
-     await user.addCourse(course);
+    console.log("USERS", user.id, course.id);
+    await user.addCourse(course);
     res.status(200).json({ message: "Course Assigned To User" });
   } catch (error) {
-    console.log("actulw err",error)
+    console.log("actulw err", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -172,9 +172,8 @@ const getUserCourses = async (req, res) => {
     // let course = await courseModel.findByPk(req.body.course_id);
     if (!user) {
       res.status(400).json({ error: "User with given id not found" });
-    }
-   else {
-     let courses =  await user.getCourses();
+    } else {
+      let courses = await user.getCourses();
       res.status(200).json(courses);
     }
   } catch (error) {
@@ -189,5 +188,5 @@ module.exports = {
   updateUser,
   deleteUser,
   assignCourse,
-  getUserCourses
+  getUserCourses,
 };

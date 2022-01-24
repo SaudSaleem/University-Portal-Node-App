@@ -3,18 +3,30 @@ const Joi = require("joi");
 function validateUser(req, res, next) {
   try {
     const schema = Joi.object().keys({
-      user_first_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).required(),
-      user_last_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).required(),
+      user_first_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .required(),
+      user_last_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .required(),
       user_email: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .min(4)
         .max(30)
         .required(),
       user_password: Joi.string().min(5).max(30).required(),
-      user_role: Joi.string().regex(/^(student|teacher)$/).required(),
+      user_role: Joi.string()
+        .regex(/^(student|teacher)$/)
+        .required(),
       user_address: Joi.string().optional(),
-      user_phone_no: Joi.string().regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/).optional(),
-      faculty_id:Joi.number().optional(),
+      user_phone_no: Joi.string()
+        .regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)
+        .optional(),
+      faculty_id: Joi.number().optional(),
     });
     const result = schema.validate(req.body);
 
@@ -22,7 +34,7 @@ function validateUser(req, res, next) {
       {
         return res.status(400).json({
           success: false,
-          msg: result.error.details.map(i => i.message).join(',')
+          msg: result.error.details.map((i) => i.message).join(","),
         });
       }
     } else next();
@@ -34,18 +46,30 @@ function validateUser(req, res, next) {
 function validateUserUpdation(req, res, next) {
   try {
     const schema = Joi.object().keys({
-      user_first_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).optional(),
-      user_last_name: Joi.string().regex(/^[A-Za-z]+$/).min(3).max(30).optional(),
+      user_first_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .optional(),
+      user_last_name: Joi.string()
+        .regex(/^[A-Za-z]+$/)
+        .min(3)
+        .max(30)
+        .optional(),
       user_email: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .min(4)
         .max(30)
         .optional(),
       user_password: Joi.string().min(5).max(30).optional(),
-      user_role: Joi.string().regex(/^(student|teacher)$/).optional(),
+      user_role: Joi.string()
+        .regex(/^(student|teacher)$/)
+        .optional(),
       user_address: Joi.string().optional(),
-      user_phone_no: Joi.string().regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/).optional(),
-      faculty_id:Joi.number().optional(),
+      user_phone_no: Joi.string()
+        .regex(/^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)
+        .optional(),
+      faculty_id: Joi.number().optional(),
     });
     const result = schema.validate(req.body);
 
@@ -53,7 +77,7 @@ function validateUserUpdation(req, res, next) {
       {
         return res.status(400).json({
           success: false,
-          msg: result.error.details.map(i => i.message).join(',')
+          msg: result.error.details.map((i) => i.message).join(","),
         });
       }
     } else next();
@@ -63,5 +87,5 @@ function validateUserUpdation(req, res, next) {
 }
 module.exports = {
   validateUser,
-  validateUserUpdation
+  validateUserUpdation,
 };

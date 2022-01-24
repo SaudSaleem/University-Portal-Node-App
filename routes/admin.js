@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../middlewares/admin");
 const adminController = require("../controllers/admin");
-
+const verifyTokenController = require("../middlewares/token");
 /**
  * @swagger
  * components:
@@ -72,7 +72,11 @@ const adminController = require("../controllers/admin");
  *                 $ref: '#/components/schemas/Admin'
  */
 
-router.get("/", adminController.getAllAdmins);
+router.get(
+  "/",
+  verifyTokenController.verifyToken,
+  adminController.getAllAdmins
+);
 
 /**
  * @swagger
@@ -97,7 +101,11 @@ router.get("/", adminController.getAllAdmins);
  *       404:
  *         description: The admin was not found
  */
-router.get("/:id", adminController.getAdminById);
+router.get(
+  "/:id",
+  verifyTokenController.verifyToken,
+  adminController.getAdminById
+);
 
 /**
  * @swagger
@@ -121,7 +129,12 @@ router.get("/:id", adminController.getAdminById);
  *       500:
  *         description: Some server error
  */
-router.post("/", adminMiddleware.validateAdmin, adminController.addAdmin);
+router.post(
+  "/",
+  verifyTokenController.verifyToken,
+  adminMiddleware.validateAdmin,
+  adminController.addAdmin
+);
 
 /**
  * @swagger
@@ -154,7 +167,12 @@ router.post("/", adminMiddleware.validateAdmin, adminController.addAdmin);
  *      500:
  *        description: Some error happened
  */
-router.patch("/:id", adminMiddleware.validateAdminUpdation, adminController.updateAdmin);
+router.patch(
+  "/:id",
+  verifyTokenController.verifyToken,
+  adminMiddleware.validateAdminUpdation,
+  adminController.updateAdmin
+);
 /**
  * @swagger
  * /api/admin/{id}:
@@ -175,6 +193,10 @@ router.patch("/:id", adminMiddleware.validateAdminUpdation, adminController.upda
  *       404:
  *         description: The admin was not found
  */
-router.delete("/:id", adminController.deleteAdmin);
+router.delete(
+  "/:id",
+  verifyTokenController.verifyToken,
+  adminController.deleteAdmin
+);
 
 module.exports = router;

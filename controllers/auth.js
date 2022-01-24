@@ -1,10 +1,10 @@
 const userModel = require("../models").User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 // get config vars
 dotenv.config();
-console.log(process.env.TOKEN_SECRET)
+let saud;
 const login = async (req, res) => {
   try {
     const user = await userModel.findOne({
@@ -23,7 +23,7 @@ const login = async (req, res) => {
           expiresIn: "2h",
         }
       );
-        //save user token
+      //save user token
       user.update({
         token: token,
       });

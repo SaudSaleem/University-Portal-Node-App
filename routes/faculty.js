@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const facultyMiddlewares = require('../middlewares/faculty')
+const facultyMiddlewares = require("../middlewares/faculty");
 const facultyController = require("../controllers/faculty");
-
+const verifyTokenController = require("../middlewares/token");
 /**
  * @swagger
  * components:
@@ -52,7 +52,11 @@ const facultyController = require("../controllers/faculty");
  *                 $ref: '#/components/schemas/Faculty'
  */
 
-router.get("/", facultyController.getAllFaculties);
+router.get(
+  "/",
+  verifyTokenController.verifyToken,
+  facultyController.getAllFaculties
+);
 
 /**
  * @swagger
@@ -77,7 +81,11 @@ router.get("/", facultyController.getAllFaculties);
  *       404:
  *         description: The faculty was not found
  */
-router.get("/:id", facultyController.getFacultyById);
+router.get(
+  "/:id",
+  verifyTokenController.verifyToken,
+  facultyController.getFacultyById
+);
 
 /**
  * @swagger
@@ -101,7 +109,12 @@ router.get("/:id", facultyController.getFacultyById);
  *       500:
  *         description: Some server error
  */
-router.post("/",facultyMiddlewares.validateFaculty, facultyController.addFaculty);
+router.post(
+  "/",
+  verifyTokenController.verifyToken,
+  facultyMiddlewares.validateFaculty,
+  facultyController.addFaculty
+);
 
 /**
  * @swagger
@@ -134,7 +147,12 @@ router.post("/",facultyMiddlewares.validateFaculty, facultyController.addFaculty
  *      500:
  *        description: Some error happened
  */
-router.patch("/:id",facultyMiddlewares.validateFacultyUpdation, facultyController.updateFaculty);
+router.patch(
+  "/:id",
+  verifyTokenController.verifyToken,
+  facultyMiddlewares.validateFacultyUpdation,
+  facultyController.updateFaculty
+);
 /**
  * @swagger
  * /api/faculty/{id}:
@@ -155,8 +173,11 @@ router.patch("/:id",facultyMiddlewares.validateFacultyUpdation, facultyControlle
  *       404:
  *         description: The faculty was not found
  */
-router.delete("/:id", facultyController.deleteFaculty);
-
+router.delete(
+  "/:id",
+  verifyTokenController.verifyToken,
+  facultyController.deleteFaculty
+);
 
 /**
  * @swagger
@@ -175,7 +196,11 @@ router.delete("/:id", facultyController.deleteFaculty);
  *                 $ref: '#/components/schemas/Faculty'
  */
 
- router.get("/getFacultyUsers/:id", facultyController.getFacultyUsers);
+router.get(
+  "/getFacultyUsers/:id",
+  verifyTokenController.verifyToken,
+  facultyController.getFacultyUsers
+);
 
 /**
  * @swagger
@@ -194,6 +219,10 @@ router.delete("/:id", facultyController.deleteFaculty);
  *                 $ref: '#/components/schemas/Faculty'
  */
 
- router.get("/getFacultyCourses/:id", facultyController.getFacultyCourses);
- 
+router.get(
+  "/getFacultyCourses/:id",
+  verifyTokenController.verifyToken,
+  facultyController.getFacultyCourses
+);
+
 module.exports = router;

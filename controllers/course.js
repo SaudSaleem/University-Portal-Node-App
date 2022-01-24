@@ -4,10 +4,10 @@ const courseModel = require("../models").Course;
 const addCourse = async (req, res) => {
   try {
     const addedCourse = await courseModel.create({
-        course_name: req.body.course_name,
-        faculty_name: req.body.faculty_name,
-        course_description: req.body.course_description,
-        faculty_id: req.body.faculty_id,
+      course_name: req.body.course_name,
+      faculty_name: req.body.faculty_name,
+      course_description: req.body.course_description,
+      faculty_id: req.body.faculty_id,
     });
     res.status(201).send(addedCourse);
   } catch (error) {
@@ -59,9 +59,11 @@ const updateCourse = async (req, res) => {
       res.status(404).send("course with given id is not found!");
       return;
     }
-  } catch (e) {res.status(500).json({ error: e.message });}
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
   try {
-       await courseModel.update(
+    await courseModel.update(
       {
         course_name: req.body.course_name,
         faculty_name: req.body.faculty_name,
@@ -98,7 +100,7 @@ const deleteCourse = async (req, res) => {
     res.status(404).send("course with given id is not found!");
     return;
   }
-   await courseModel.destroy({
+  await courseModel.destroy({
     where: {
       id: req.params.id,
     },

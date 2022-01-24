@@ -42,7 +42,10 @@ const getTeacherStudents = async (req, res) => {
     let user = await userModel.findByPk(req.body.user_id);
     if (user) {
       //let students = await user.getStudentTeachers();
-    let students = await userModel.findAll({ include: studentTeacherModel, where:{id:req.body.user_id} });
+      let students = await userModel.findAll({
+        include: studentTeacherModel,
+        where: { id: req.body.user_id },
+      });
       res.status(200).send(students);
     } else res.status(404).json({ error: "User with given id is not found" });
   } catch (error) {

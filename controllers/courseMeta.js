@@ -24,18 +24,18 @@ const addCourseMeta = async (req, res) => {
   }
 };
 // assign student to teacher
-const assignStudent =  async (req, res) => {
-    try {
-      const record = await courseMetaModel.create({
-        course_id: req.body.course_id,
-        user_id: req.body.user_id,
-        user_role: req.body.user_role,
-      });
-      res.status(201).send(record);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+const assignStudent = async (req, res) => {
+  try {
+    const record = await courseMetaModel.create({
+      course_id: req.body.course_id,
+      user_id: req.body.user_id,
+      user_role: req.body.user_role,
+    });
+    res.status(201).send(record);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // update meta record of course
 const updateCourseMeta = async (req, res) => {
   try {
@@ -96,5 +96,5 @@ module.exports = {
   addCourseMeta,
   updateCourseMeta,
   deleteCourseMeta,
-  assignStudent
+  assignStudent,
 };

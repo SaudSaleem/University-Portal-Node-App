@@ -65,7 +65,7 @@ const updateAdmin = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
   try {
-    await adminModel.update(
+    const updatedAdmin = await adminModel.update(
       {
         admin_first_name: req.body.admin_first_name,
         admin_last_name: req.body.admin_last_name,
