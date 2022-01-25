@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "nodemailer": "^6.7.2",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
+    "request": "^2.88.2",
     "sequelize": "^6.12.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0"
@@ -39,8 +40,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jasmine": "^4.0.2",
     "prettier": "^2.5.1"
   },
-  "lint": "eslint --fix main.js",
+  "lint": "eslint --fix index.js",
   "format": "prettier -w ."
 }

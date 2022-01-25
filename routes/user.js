@@ -77,7 +77,7 @@ const verifyTokenController = require("../middlewares/token");
  *                 $ref: '#/components/schemas/User'
  */
 
-router.get("/", verifyTokenController.verifyToken, userController.getAllUsers);
+router.get("/", userController.getAllUsers);
 
 /**
  * @swagger

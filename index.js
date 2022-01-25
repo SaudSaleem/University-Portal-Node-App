@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json());
 //require("dotenv").config();
 const port = process.env.API_PORT || 3000;
+
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const adminRoutes = require("./routes/admin");
