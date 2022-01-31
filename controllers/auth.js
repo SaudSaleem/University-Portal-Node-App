@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 // get config vars
 dotenv.config();
-let saud;
 const login = async (req, res) => {
   try {
     const user = await userModel.findOne({
@@ -18,16 +17,17 @@ const login = async (req, res) => {
       const token = jwt.sign(
         // authentication successful
         { id: user.id, email: req.body.user_email },
+        // eslint-disable-next-line no-undef
         process.env.TOKEN_SECRET,
         {
           expiresIn: "2h",
         }
       );
-      //save user token
+      // save user token
       user.update({
-        token: token,
+        token,
       });
-      res.status(200).json({ user: user });
+      res.status(200).json({ user });
     } else res.status(400).send("Invalid Credentials");
   } catch (e) {
     res.status(500).json({ error: e.message });

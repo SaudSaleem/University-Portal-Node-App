@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = process.env;
+// eslint-disable-next-line no-undef
 const dotenv = require("dotenv");
 // get config vars
 dotenv.config();
@@ -15,9 +15,10 @@ const verifyToken = (req, res, next) => {
         .json({ error: "A token is required for authentication" });
     }
     try {
+      // eslint-disable-next-line no-undef
       const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
       req.user = decoded;
-      console.log("decoded user is: ", req.user);
+      console.log("decoded user is: ", req.user, decoded);
     } catch (err) {
       return res.status(401).json({ error: "Invalid Token" });
     }

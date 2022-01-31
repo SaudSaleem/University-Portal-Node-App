@@ -1,7 +1,21 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const app = express();
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,PATCH");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+app.use(bodyParser.json());
 app.use(express.json());
-//require("dotenv").config();
+app.use(bodyParser.urlencoded({ extended: false }));
+// require("dotenv").config();
+// eslint-disable-next-line no-undef
 const port = process.env.API_PORT || 3000;
 
 const swaggerUI = require("swagger-ui-express");
@@ -10,13 +24,16 @@ const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 const studentTeacherRoutes = require("./routes/studentTeacher");
 const facultyRoutes = require("./routes/faculty");
-//const facultyMetaRoutes = require("./routes/facultyMeta");
 const courseRoutes = require("./routes/course");
-// const courseMetaRoutes = require("./routes/courseMeta");
 const autoController = require("./controllers/auth");
+// practice middleware start
+const logger = require("./middlewares/practice");
 
+app.use(logger);
+// practice midlleware end
+// eslint-disable-next-line no-undef
 console.log(__dirname);
-//SWAGGER DOCS
+// SWAGGER DOCS
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -36,11 +53,11 @@ const options = {
 const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-//ROUTES
+// ROUTES
 app.get("/", (req, res) => {
   res.send("Hello World! This is root route");
 });
-//login/logout routes
+// login/logout routes
 app.post("/login", autoController.login);
 app.post("/logout", autoController.logout);
 
@@ -48,7 +65,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/studentTeacher", studentTeacherRoutes);
 app.use("/api/faculty", facultyRoutes);
-//app.use("/api/facultyMeta", facultyMetaRoutes);
+// app.use("/api/facultyMeta", facultyMetaRoutes);
 app.use("/api/course", courseRoutes);
 // app.use("/api/courseMeta", courseMetaRoutes);
 
